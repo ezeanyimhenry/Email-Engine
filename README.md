@@ -8,7 +8,6 @@ Email Engine is a dynamic platform for designing and sending HTML emails from di
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [File Structure](#file-structure)
 - [Contributing](#contributing)
 - [License](#license)
 
