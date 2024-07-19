@@ -13,7 +13,7 @@ session_start();
 <?php include "layout/head.php"; ?>
 
 
-<body class="nk-body" data-sidebar-collapse="lg" data-navbar-collapse="lg">
+<body class="bg-dark nk-body" data-sidebar-collapse="lg" data-navbar-collapse="lg">
     <div id="loading-spinner" class="d-none justify-content-center align-items-center"
         style="position: fixed; width:100%;height:100%;background:rgba(95, 56, 249,0.3);z-index:9999999">
         <div class="spinner-border text-primary" style="width:3rem;height:3rem" role="status">
@@ -48,13 +48,13 @@ session_start();
 
 
                                                     <div class="mt-3 mt-md-0 ms-md-3">
-                                                        <h3 class="title mb-1">Email Engine</h3>
+                                                        <h3 class="title mb-1 text-white">Email Engine</h3>
 
                                                         <ul class="nk-list-option pt-1">
                                                             <li>
 
 
-                                                                <span class="small">Send Email
+                                                                <span class="small text-white">Send Email
                                                                 </span>
                                                             </li>
                                                         </ul>
@@ -84,7 +84,7 @@ session_start();
                                                                         </h4>
                                                                         <select name="smtp_server" id="smtp_server"
                                                                             class="form-control">
-                                                                            
+
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -179,15 +179,16 @@ session_start();
                                                                                     class="btn btn-secondary btn-sm"
                                                                                     id="add-break">Break Line</button>
                                                                             </div>
-                                                                            <div class="email-template">
-
-                                                                                <textarea class="form-control" id="body"
-                                                                                    placeholder="Email body"
-                                                                                    oninput="updatePreview()"
-                                                                                    name="body" rows="10"
-                                                                                    required></textarea>
-                                                                                    
-                                                                                <div>
+                                                                            <div class="row">
+                                                                                <div class="col-12 col-md-6">
+                                                                                    <textarea class="form-control"
+                                                                                        id="body"
+                                                                                        placeholder="Email body"
+                                                                                        oninput="updatePreview()"
+                                                                                        name="body" rows="10"
+                                                                                        required></textarea>
+                                                                                </div>
+                                                                                <div class="col-12 col-md-6">
                                                                                     <h2>Preview</h2>
                                                                                     <iframe id="preview">
 
@@ -278,7 +279,7 @@ session_start();
         try {
             const response = await fetch('get_servers.php');
             const servers = await response.json();
-// console.log(servers);
+            // console.log(servers);
             Object.keys(servers).forEach(serverId => {
                 const option = document.createElement('option');
                 option.value = serverId;
@@ -292,7 +293,7 @@ session_start();
             smtpSelect.addEventListener('change', function () {
                 const selectedServer = this.value;
                 const logoUrl = servers[selectedServer]?.logo_url || '';
-                const newServerName =servers[selectedServer]?.name || '';
+                const newServerName = servers[selectedServer]?.name || '';
                 logoImage.value = logoUrl;
                 serverName.value = newServerName;
             });
