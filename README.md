@@ -85,22 +85,6 @@ Email Engine is a dynamic platform for designing and sending HTML emails from di
 
     - The logo associated with the selected SMTP server will be displayed in the email preview.
 
-## File Structure
-
-email-engine/
-  ├── config.php          # Configuration file for SMTP servers
-  ├── get_servers.php     # Endpoint to fetch server configurations
-  ├── upload_logo.php     # Script to handle logo uploads
-  ├── process_email.php    # Script to handle email sending
-  ├── sendmail.php         # Email Form
-  ├── index.php           # Main HTML file
-  ├── assets/             # Directory for assets like logos
-  │   └── logos/           # Directory for server logos
-  │       ├── logo1.png     # Logo for Server 1
-  │       ├── logo2.png     # Logo for Server 2
-  │       └── logo3.png     # Logo for Server 3
-  └── README.md           # This README file
-
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
