@@ -73,7 +73,33 @@
                                             <div class="card card-gutter-md">
                                                 <div class="card-body">
                                                     <div class="bio-block">
+                                                        <h2 class="bio-block-title mb-4">Upload Logo</h2>
+                                                        <form action="upload_logo.php" method="post"
+                                                            enctype="multipart/form-data">
+                                                            <div class="row g-3">
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <h4 class="bio-block-title mb-4">Select SMTP
+                                                                            Server
+                                                                        </h4>
+                                                                        <select name="smtp_server" id="smtp_server"
+                                                                            class="form-control">
+                                                                            
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
 
+                                                                    <label for="logo">Upload Logo:</label>
+                                                                    <input type="file" name="logo" id="logo"
+                                                                        class="form-control">
+                                                                    <br>
+                                                                    <button type="submit" name="uploadLogo"
+                                                                        class="btn btn-primary">Upload</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </form>
 
                                                         <form action="" method="post" id="sendemail">
 
@@ -83,14 +109,14 @@
                                                                         <h4 class="bio-block-title mb-4">Select SMTP
                                                                             Server
                                                                         </h4>
-                                                                        <select name="" id="" class="form-control">
-                                                                            <option value="oracus">Oracus NG</option>
-                                                                            <option value="">SMTP 2</option>
-                                                                            <option value="">SMTP 3</option>
+                                                                        <select name="server" id="server"
+                                                                            class="form-control" required>
+                                                                            <option value="">Select Server</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
-
+                                                                <input type="hidden" id="server-logo" value="">
+                                                                <input type="hidden" id="server-name" value="">
                                                                 <div class="col-lg-12">
                                                                     <div class="form-group">
                                                                         <label for="subject" class="form-label">Subject
@@ -160,6 +186,7 @@
                                                                                     oninput="updatePreview()"
                                                                                     name="body" rows="10"
                                                                                     required></textarea>
+                                                                                    
                                                                                 <div>
                                                                                     <h2>Preview</h2>
                                                                                     <iframe id="preview">
@@ -242,11 +269,44 @@
 
 
 <script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        const serverSelect = document.getElementById('smtp_server');
+        const smtpSelect = document.getElementById('server');
+        const logoImage = document.getElementById('server-logo');
+        const serverName = document.getElementById('server-name');
+
+        try {
+            const response = await fetch('get_servers.php');
+            const servers = await response.json();
+// console.log(servers);
+            Object.keys(servers).forEach(serverId => {
+                const option = document.createElement('option');
+                option.value = serverId;
+                option.textContent = servers[serverId].name;
+
+                // Append option to both select elements
+                serverSelect.appendChild(option.cloneNode(true));
+                smtpSelect.appendChild(option.cloneNode(true));
+            });
+
+            smtpSelect.addEventListener('change', function () {
+                const selectedServer = this.value;
+                const logoUrl = servers[selectedServer]?.logo_url || '';
+                const newServerName =servers[selectedServer]?.name || '';
+                logoImage.value = logoUrl;
+                serverName.value = newServerName;
+            });
+        } catch (error) {
+            console.error('Error fetching servers:', error);
+        }
+    });
 
     //update subject
     let subject = '';
     var sub = document.getElementById('subject');
     function subjects() {
+        var logo = document.getElementById('server-logo').value;
+        var company = document.getElementById('server-name').value;
         subject = sub.value;
         var preview = document.getElementById('preview');
         preview.srcdoc = `
@@ -402,7 +462,7 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
   <tr>
     <td class='v-text-align' style='padding-right: 0px;padding-left: 0px;' align='center'>
       
-      <img align='center' border='0' src='https://celloquidcapital.com/account/images/logo.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;' width='168.2' class='v-src-width v-src-max-width'/>
+      <img align='center' border='0' src='${logo}' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;' width='168.2' class='v-src-width v-src-max-width'/>
       
     </td>
   </tr>
@@ -513,7 +573,7 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
       <td style='overflow-wrap:break-word;word-break:break-word;padding:14px;font-family:Lato,sans-serif;' align='left'>
         
   <div class='v-text-align' style='font-family: Lato,sans-serif; color: #fafafa; line-height: 140%; text-align: center; word-wrap: break-word;'>
-    <p style='line-height: 140%;'>Copyright ©2023 Celloquid Capital. All Rights Reserved.</p>
+    <p style='line-height: 140%;'>Copyright ©<?= date('Y') ?> ${company}. All Rights Reserved.</p>
   </div>
 
       </td>
@@ -588,6 +648,8 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
     }
     let body = ``;
     function updatePreview() {
+        var logo = document.getElementById('server-logo').value;
+        var company = document.getElementById('server-name').value;
         var textarea = document.getElementById('body');
         var preview = document.getElementById('preview');
         var content = textarea.value;
@@ -751,7 +813,7 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
   <tr>
     <td class='v-text-align' style='padding-right: 0px;padding-left: 0px;' align='center'>
       
-      <img align='center' border='0' src='https://celloquidcapital.com/account/images/logo.png' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;' width='168.2' class='v-src-width v-src-max-width'/>
+      <img align='center' border='0' src='${logo}' alt='Image' title='Image' style='outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;' width='168.2' class='v-src-width v-src-max-width'/>
       
     </td>
   </tr>
@@ -862,7 +924,7 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
       <td style='overflow-wrap:break-word;word-break:break-word;padding:14px;font-family:Lato,sans-serif;' align='left'>
         
   <div class='v-text-align' style='font-family: Lato,sans-serif; color: #fafafa; line-height: 140%; text-align: center; word-wrap: break-word;'>
-    <p style='line-height: 140%;'>Copyright ©2023 Celloquid Capital. All Rights Reserved.</p>
+    <p style='line-height: 140%;'>Copyright ©<?= date('Y') ?> ${company}. All Rights Reserved.</p>
   </div>
 
       </td>
@@ -889,6 +951,7 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
 </html>
 `;
     }
+
 
     const form = document.querySelector('#sendemail');
 

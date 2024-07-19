@@ -10,6 +10,7 @@ $server = [
         "password" => "server password",
         "encryption" => "ssl",
         "port" => 465,
+        "logo_url" => "",
     ],
 
     "server_2_id" => [
@@ -19,6 +20,7 @@ $server = [
         "password" => "server password",
         "encryption" => "ssl",
         "port" => 465,
+        "logo_url" => "",
     ],
 
 ];
