@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['uploadLogo'])) {
     $server_id = $_POST['smtp_server'];
     $upload_dir = 'uploads/';
@@ -25,14 +27,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['uploadLogo'])) {
 
             // Save the updated configuration back to the config file
             file_put_contents('config.php', "<?php\n\n\$server = " . var_export($server, true) . ";\n");
-            echo "Logo uploaded and configuration updated successfully.";
+            $_SESSION['successMessage'] = "Logo uploaded and configuration updated successfully.";
+            header('Location: sendmail.php');
+            exit();
         } else {
-            echo "Invalid server ID.";
+            $_SESSION['errorMessage'] = "Invalid server ID.";
+            header('Location: sendmail.php');
+            exit();
         }
     } else {
-        echo "Failed to upload logo.";
+        $_SESSION['errorMessage'] = "Failed to upload logo.";
+        header('Location: sendmail.php');
+        exit();
     }
 } else {
-    echo "Invalid request.";
+    $_SESSION['errorMessage'] = "Invalid request.";
+    header('Location: sendmail.php');
+    exit();
 }
-?>

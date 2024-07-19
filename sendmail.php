@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,11 +33,11 @@
                                         <?php
                                         if (!empty($_SESSION['successMessage'])) {
                                             $message = $_SESSION['successMessage'];
-                                            echo '<div class="alert alert-success" role="alert" id="alert">' . $message . '</div>';
+                                            echo "<div class='alert alert-success' role='alert' id='alert'> $message  </div>";
                                             unset($_SESSION['successMessage']);
                                         } elseif (!empty($_SESSION['errorMessage'])) {
                                             $message = $_SESSION['errorMessage'];
-                                            echo '<div class="alert alert-danger" role="alert" id="alert">  ' . $message . '</div>';
+                                            echo "<div class='alert alert-danger' role='alert' id='alert'> $message</div>";
                                             unset($_SESSION['errorMessage']);
                                         }
                                         ?>
