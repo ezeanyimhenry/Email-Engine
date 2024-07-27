@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+$host = $_SERVER['HTTP_HOST'];
+$baseUrl = $scheme . $host . '/';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,24 +87,34 @@ session_start();
                                                                             Server
                                                                         </h4>
                                                                         <select name="smtp_server" id="smtp_server"
-                                                                            class="form-control">
-
+                                                                            class="form-control" required>
+                                                                            <option value="">Select Server</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6">
+                                                                    <div style="display: none;"
+                                                                        id="logo-preview-container">
+                                                                        <div class="d-flex justify-content-center"
+                                                                            style="background-color: #0a1488;">
+                                                                            <img src="" alt="logo" id="logo-preview"
+                                                                                style="width: 150px;">
+                                                                        </div>
+                                                                    </div>
 
-                                                                    <label for="logo">Upload Logo:</label>
-                                                                    <input type="file" name="logo" id="logo"
-                                                                        class="form-control">
-                                                                    <br>
-                                                                    <button type="submit" name="uploadLogo"
-                                                                        class="btn btn-primary">Upload</button>
+                                                                    <div>
+                                                                        <label for="logo">Upload Logo:</label>
+                                                                        <input type="file" name="logo" id="logo"
+                                                                            class="form-control">
+                                                                        <br>
+                                                                        <button type="submit" name="uploadLogo"
+                                                                            class="btn btn-primary">Upload</button>
 
+                                                                    </div>
+                                                                    </di>
                                                                 </div>
-                                                            </div>
                                                         </form>
-
+                                                        <h2 class="bio-block-title mb-4">Send Email</h2>
                                                         <form action="" method="post" id="sendemail">
 
                                                             <div class="row g-3">
@@ -115,6 +129,8 @@ session_start();
                                                                         </select>
                                                                     </div>
                                                                 </div>
+                                                                <input type="hidden" name="base-url" id="base-url"
+                                                                    value="<?= $baseUrl ?>">
                                                                 <input type="hidden" id="server-logo" value="">
                                                                 <input type="hidden" id="server-name" value="">
                                                                 <div class="col-lg-12">
@@ -209,6 +225,7 @@ session_start();
                                                                 </div>
                                                             </div>
                                                         </form>
+                                                        <div id='alertContainer'></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,51 +246,16 @@ session_start();
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="successModalLabel">Email Sent Successfully</h5>
-                <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Your email has been sent successfully.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="failedModal" tabindex="-1" role="dialog" aria-labelledby="failedModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="failedModalLabel">Failed</h5>
-                <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Couldn't send email.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 <script>
     document.addEventListener('DOMContentLoaded', async function () {
         const serverSelect = document.getElementById('smtp_server');
         const smtpSelect = document.getElementById('server');
+        const baseUrl = document.getElementById('base-url').value;
         const logoImage = document.getElementById('server-logo');
+        const logoPreview = document.getElementById('logo-preview');
         const serverName = document.getElementById('server-name');
 
         try {
@@ -290,11 +272,36 @@ session_start();
                 smtpSelect.appendChild(option.cloneNode(true));
             });
 
+            serverSelect.addEventListener('change', function () {
+                const selectedServer = this.value;
+                const logoUrl = servers[selectedServer]?.logo_url || '';
+                const newServerName = servers[selectedServer]?.name || '';
+
+                if (logoUrl && imageExists(logoUrl)) {
+                    document.getElementById('logo-preview-container').style.display = 'block';
+                } else {
+                    document.getElementById('logo-preview-container').style.display = 'none';
+                }
+
+                logoPreview.src = baseUrl + logoUrl;
+            });
+
+            function imageExists(image_url) {
+
+                var http = new XMLHttpRequest();
+
+                http.open('HEAD', image_url, false);
+                http.send();
+
+                return http.status != 404;
+
+            }
+
             smtpSelect.addEventListener('change', function () {
                 const selectedServer = this.value;
                 const logoUrl = servers[selectedServer]?.logo_url || '';
                 const newServerName = servers[selectedServer]?.name || '';
-                logoImage.value = logoUrl;
+                logoImage.value = baseUrl + logoUrl;
                 serverName.value = newServerName;
             });
         } catch (error) {
@@ -968,6 +975,7 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
                 loadingSpinner.classList.add('d-flex');
 
                 const emailData = {
+                    server: document.getElementById('server').value,
                     html: document.getElementById('preview').srcdoc,
                     subject: document.getElementById('subject').value,
                     recipient: document.getElementById('email').value
@@ -980,7 +988,7 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
                 });
 
                 const result = await response.text();
-                console.log(result);
+                // console.log(result);
 
                 // Hide the loading spinner
                 loadingSpinner.classList.remove('d-flex');
@@ -989,12 +997,12 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
                 // Check if the email was sent successfully
                 if (result === 'success') {
                     // Show the success modal
-                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                    successModal.show();
+                    const alertContainer = document.getElementById('alertContainer');
+                    alertContainer.innerHTML = `<div class="alert alert-success" role="alert">${data.message}</div>`;
                 } else if (result === 'failed') {
                     // Show the success modal
-                    const failedModal = new bootstrap.Modal(document.getElementById('failedModal'));
-                    failedModal.show();
+                    const alertContainer = document.getElementById('alertContainer');
+                    alertContainer.innerHTML = `<div class="alert alert-danger" role="alert">${data.message}</div>`;
                 }
             } catch (error) {
                 console.error(error);

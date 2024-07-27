@@ -53,12 +53,12 @@ $mail->smtpConnect([
 
 try {
     $mail->send();
-    $_SESSION['successMessage'] = "Email Sent Successfully";
-    header('Location: sendmail.php');
-    exit();
+    $_SESSION['message'] = "Email Sent Successfully";
+    // header('Location: sendmail.php');
+    // exit();
 } catch (Exception $e) {
     error_log("Mailer Error: $mail->ErrorInfo ");
-    $_SESSION['errorMessage'] = "Failed to send Email";
-    header('Location: sendmail.php');
-    exit();
+    $_SESSION['message'] = "Failed to send Email";
+    // header('Location: sendmail.php');
+    // exit();
 }
