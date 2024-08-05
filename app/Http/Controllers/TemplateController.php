@@ -2,7 +2,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\EmailTemplate;
+use App\Models\Template;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TemplateController extends Controller
 {
@@ -39,7 +41,12 @@ class TemplateController extends Controller
         $this->authorize('update', $template);
         return view('templates.edit', compact('template'));
     }
+    public function edits($id)
+    {
 
+        $template = Template::findOrFail($id);
+        return Inertia::render('TemplateEditor', ['templateHtml' => $template->content]);
+    }
     public function update(Request $request, EmailTemplate $template)
     {
         $this->authorize('update', $template);
