@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('email_templates', function (Blueprint $table) {
+        Schema::create('email_campaigns', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->text('content');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('email_template_id')->nullable()->constrained()->onDelete('set null');
+            $table->timestamp('scheduled_at')->nullable();
+            $table->enum('status', ['draft', 'scheduled', 'sent'])->default('draft');
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('email_templates');
+        Schema::dropIfExists('email_campaigns');
     }
 };
