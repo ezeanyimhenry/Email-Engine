@@ -122,7 +122,7 @@ export default function DashboardLayout({ children }) {
                                                 : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                         }`}
                                         onClick={(e) => {
-                                            item.children && e.preventDefault();
+                                            // item.children && e.preventDefault();
                                             item.children && setOpenSection(openSection === item.name ? null : item.name);
                                           }}
                                     >
@@ -188,7 +188,7 @@ export default function DashboardLayout({ children }) {
                                                 : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                         }`}
                                         onClick={(e) => {
-                                            item.children && e.preventDefault();
+                                            // item.children && e.preventDefault();
                                             item.children &&
                                                 setOpenSection(
                                                     openSection === item.name

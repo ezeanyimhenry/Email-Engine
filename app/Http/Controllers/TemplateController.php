@@ -9,13 +9,19 @@ use Inertia\Inertia;
 class TemplateController extends Controller
 {
     use \Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-   
-    
+
+    public function index()
+    {
+
+        $template = Template::get();
+        return Inertia::render('TemplatesList', ['templates' => $template]);
+    }
+
     public function edits($id)
     {
 
         $template = Template::findOrFail($id);
         return Inertia::render('TemplateEditor', ['templateHtml' => $template->content]);
     }
-    
+
 }

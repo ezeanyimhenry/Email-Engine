@@ -50,6 +50,7 @@ class TemplateSeeder extends Seeder
                 </body>
                 </html>
             ',
+            'thumbnail' => 'https://via.placeholder.com/150',
     ]);
 
 
@@ -62,7 +63,7 @@ class TemplateSeeder extends Seeder
       display: block !important;
       width: 100% !important;
     }
-    
+
     td {
       width: 480px !important;
     }
@@ -113,19 +114,19 @@ class TemplateSeeder extends Seeder
             </tr>
           </table>
           <!-- // END #preheader -->
-  
+
           <table width="600" border="0" bgcolor="#FFFFFF" cellspacing="0" cellpadding="0" id="header_container">
             <tr>
               <td align="center" valign="top">
                 <table width="100%" border="0" bgcolor="#474544" cellspacing="0" cellpadding="0" id="header">
-                 
+
                 </table>
                 <!-- // END #header -->
               </td>
             </tr>
           </table>
           <!-- // END #header_container -->
-  
+
           <table width="600" border="0" bgcolor="#C7B39A" cellspacing="0" cellpadding="20" id="body_container" class="background-style" style="position:relative; background-image: url(\'https://munarealestate.ng/wp-content/uploads/2024/04/pexels-jdgromov-4471207-scaled.jpg\'); background-position: center center; background-size: cover;">
             <tr>
               <td align="center" valign="top" class="body_content">
@@ -153,7 +154,7 @@ class TemplateSeeder extends Seeder
           </tr>
         </table>
         <!-- // END #body_container -->
-        
+
         <table width="600" border="0" cellspacing="0" cellpadding="20" id="body_info_container">
           <tr>
             <td align="center" valign="top" class="body_info_content">
@@ -166,13 +167,13 @@ class TemplateSeeder extends Seeder
                     <p style="color: #666666; font-size: 14px; line-height: 22px; text-align: left;">Unfortunately the Webinar hosting provider’s data center in the UK had to go through an unexpected emergency maintenance procedure yesterday due to some circumstances beyond their control which resulted to the downtime of the webinar’s link.
   </p>
                     <p style="color: #666666; font-size: 14px; line-height: 22px; text-align: left;">Our team is currently analyzing the issue to ensure it doesn\'t happen again in future webinars. We are committed to resolving this problem as quickly as possible and getting the valuable information you signed up for into your hands.</p>
-  
+
   <p style="color: #666666; font-size: 14px; line-height: 22px; text-align: left;">Here\'s what to expect; We will be sending a replay link to all registered attendees as soon as possible. This will allow you to watch the entire webinar at your convenience.</p>
-  
+
   <p style="color: #666666; font-size: 14px; line-height: 22px; text-align: left;">We will also be providing access to any additional materials that were supposed to be covered in the webinar, such as presentations, handouts, or Q&A summaries.</p>
-  
+
   <p style="color: #666666; font-size: 14px; line-height: 22px; text-align: left;">In the meantime, if you have any questions or require further information, please do not hesitate to contact us at [+234 903 499 2966].</p>
-  
+
   <p style="color: #666666; font-size: 14px; line-height: 22px; text-align: left;">We appreciate your patience and understanding.</p>
                     <p style="color: #666666; font-size: 14px; line-height: 22px; text-align: left;">We look forward to sharing Dr. Muna\'s valuable insights with you soon!
   </p>
@@ -182,7 +183,7 @@ class TemplateSeeder extends Seeder
             </td>
           </tr>
         </table>
-        
+
         <table width="600" border="0" bgcolor="#F2F2F2" cellspacing="0" cellpadding="20" id="body_item_container">
           <tr>
             <td align="center" valign="top" class="body_item_content">
@@ -199,7 +200,7 @@ class TemplateSeeder extends Seeder
             </td>
           </tr>
         </table>
-  
+
         <table width="600" border="0" bgcolor="#CA9731" cellspacing="0" cellpadding="20" id="contact_container">
           <tr>
             <td align="center" valign="top">
@@ -222,7 +223,7 @@ class TemplateSeeder extends Seeder
           </tr>
         </table>
         <!-- // END #contact_container -->
-  
+
         <table width="600" border="0" cellspacing="0" cellpadding="20" id="footer_container">
           <tr>
             <td align="center" valign="top">
@@ -249,6 +250,7 @@ class TemplateSeeder extends Seeder
   <!-- // END #background -->
   </body>
           ',
+          'thumbnail' => 'https://via.placeholder.com/150',
     ]);
 
   }

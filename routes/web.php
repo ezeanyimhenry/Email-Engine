@@ -3,38 +3,38 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TemplateController;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/login-default', function () {
-    $user = User::first();
-    
-    if ($user) {
-        Auth::login($user);
-        return redirect()->route('dashboard'); // Redirect to a route after authentication
-    }
-
-    return 'Default user not found.';
-});
+use Inertia\Inertia;
 
 // Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/', function () {
-//     return
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
 // });
 Route::inertia('/', 'Home');
-Route::inertia('/login', 'Login');
-Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
-Route::inertia('/dashboard/settings', 'EmailTemplates');
-Route::get('/templates/{id}/edit', [TemplateController::class, 'edits'])->name('templates.edit');
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('dashboard')->group(function () {
+        Route::inertia('/', 'Dashboard')->name('dashboard');
+        Route::inertia('/settings', 'EmailTemplates');
+
+        Route::prefix('templates')->group(function () {
+            Route::get('/', [TemplateController::class, 'index']);
+            Route::get('/{id}/edit', [TemplateController::class, 'edits'])->name('templates.edit');
+        });
+
+    });
+
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -42,5 +42,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('contacts', ContactController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 require __DIR__.'/auth.php';
