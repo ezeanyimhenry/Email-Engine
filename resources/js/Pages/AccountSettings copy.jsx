@@ -8,7 +8,7 @@ export default function AccountSettings({ auth = {user: 'collins', email: 'colli
         name: auth.user.name || "",
         email: auth.user.email || "",
         current_password: "",
-        new_password: "",
+        new _password: "",
         new_password_confirmation: "",
     });
 

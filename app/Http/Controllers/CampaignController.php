@@ -41,7 +41,6 @@ class CampaignController extends Controller
         'status' => $request->send_now ? 'sent' : 'draft',
     ]);
 
-    // Send the campaign if it's scheduled to be sent now or "Send Now" button was clicked
     if ($request->send_now || (!$request->scheduled_at || now()->gte($request->scheduled_at))) {
         $this->sendCampaign($campaign);
     }
@@ -85,11 +84,8 @@ class CampaignController extends Controller
     protected function sendCampaign(EmailCampaigns $campaign)
     {
         $serverConfig = ServerConfiguration::where('user_id', auth()->id())->firstOrFail();
-
-        // Decrypt sensitive data
         $decryptedPassword = Crypt::decryptString($serverConfig->password);
 
-        // Prepare mail configuration
         $mailConfig = [
             'driver' => 'smtp',
             'host' => $serverConfig->host,
@@ -101,9 +97,14 @@ class CampaignController extends Controller
 
         config(['mail' => $mailConfig]);
 
-        Mail::raw($campaign->content, function ($message) use ($campaign) {
-            $message->to('recipient@example.com')
-                ->subject($campaign->title);
+        $emailTemplate = EmailTemplate::findOrFail($campaign->email_template_id);
+        $htmlContent = $emailTemplate->content;
+
+        Mail::send([], [], function ($message) use ($campaign, $serverConfig, $htmlContent) {
+            $message->to('collinschristroa@gmail.com')
+                    ->subject($campaign->title)
+                    ->from($serverConfig->from_email, $serverConfig->from_name)
+                    ->html($htmlContent);
         });
 
         $campaign->update([
