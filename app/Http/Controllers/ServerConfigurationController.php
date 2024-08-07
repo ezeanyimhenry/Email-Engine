@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ServerConfiguration;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,9 @@ class ServerConfigurationController extends Controller
     public function index()
     {
         $config = ServerConfiguration::where('user_id', auth()->id())->first();
-        $config['password'] = Crypt::decryptString($config->password);
+        if ($config && $config->password) {
+            $config->password = Crypt::decryptString($config->password);
+        }
         return Inertia::render('ServerConfiguration', ['config' => $config]);
     }
 
@@ -52,7 +55,10 @@ class ServerConfigurationController extends Controller
         $path = $request->file('logo')->store('public/logos');
         $logoUrl = Storage::url($path);
 
-        auth()->user()->update(['logo_url' => $logoUrl]);
+        $user = auth()->user();
+        if ($user instanceof User) {
+            $user->update(['logo_url' => $logoUrl]);
+        }
 
         return redirect()->route('server-config.index');
     }
