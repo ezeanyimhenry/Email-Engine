@@ -14,61 +14,62 @@ import {
 } from "@heroicons/react/24/outline";
 
 const navigation = [
-    { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
-    { name: "Account Settings", href: "/dashboard/settings", icon: CogIcon },
-    { name: "Server Config", href: "/dashboard/server-config", icon: CogIcon },
-    {
-        name: "Billing & Subscription",
-        href: "/dashboard/subscription",
-        icon: CurrencyDollarIcon,
-    },
-    {
-        name: "Templates",
-        href: "#", // Changed to #
-        icon: FolderIcon,
-        children: [
-            { name: "My Templates", href: "/dashboard/email-templates/" },
-            { name: "All Templates", href: "/dashboard/templates/" },
-            { name: "Create New", href: "/dashboard/templates/create" },
-        ],
-    },
-    {
-        name: "Contacts",
-        href: "#", // Changed to #
-        icon: UsersIcon,
-        children: [
-            { name: "All Contacts", href: "/dashboard/contacts/all" },
-            { name: "Add New", href: "/dashboard/contacts/add" },
-        ],
-    },
-    {
-        name: "Campaigns",
-        href: "#", // Changed to #
-        icon: DocumentTextIcon,
-        children: [
-            { name: "All Campaigns", href: "/dashboard/campaigns/all" },
-            { name: "Create New", href: "/dashboard/campaigns/create" },
-        ],
-    },
-    {
-        name: "Reports",
-        href: "#", // Changed to #
-        icon: PaperClipIcon,
-        children: [
-            { name: "Overview", href: "/dashboard/reports/overview" },
-            { name: "Detailed Report", href: "/dashboard/reports/detailed" },
-        ],
-    },
-    {
-        name: "Notifications",
-        href: "#", // Changed to #
-        icon: ExclamationCircleIcon,
-        children: [
-            { name: "All Notifications", href: "/dashboard/notifications/all" },
-            { name: "Settings", href: "/dashboard/notifications/settings" },
-        ],
-    },
-];
+        { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
+        { name: "Account Settings", href: "/dashboard/settings", icon: CogIcon },
+        { name: "Server Config", href: "/dashboard/server-config", icon: CogIcon },
+        {
+            name: "Billing & Subscription",
+            href: "/dashboard/subscription",
+            icon: CurrencyDollarIcon,
+        },
+        {
+            name: "Templates",
+            href: "#", // Keep as # if it's a dropdown
+            icon: FolderIcon,
+            children: [
+                { name: "My Templates", href: "/dashboard/email-templates" },
+                { name: "All Templates", href: "/dashboard/templates" },
+                { name: "Create New", href: "/dashboard/templates/create" },
+            ],
+        },
+        {
+            name: "Contacts",
+            href: "#", // Keep as # if it's a dropdown
+            icon: UsersIcon,
+            children: [
+                { name: "All Contacts", href: "/dashboard/contacts" },
+                { name: "Add New", href: "/dashboard/contacts/create" },
+            ],
+        },
+        {
+            name: "Campaigns",
+            href: "#", // Keep as # if it's a dropdown
+            icon: DocumentTextIcon,
+            children: [
+                { name: "All Campaigns", href: "/dashboard/campaigns" },
+                { name: "Create New", href: "/dashboard/campaigns/create" },
+            ],
+        },
+        {
+            name: "Reports",
+            href: "#", // Keep as # if it's a dropdown
+            icon: PaperClipIcon,
+            children: [
+                { name: "Overview", href: "/dashboard/reports" },
+                { name: "Detailed Report", href: "/dashboard/reports/detailed" },
+            ],
+        },
+        {
+            name: "Notifications",
+            href: "#", // Keep as # if it's a dropdown
+            icon: ExclamationCircleIcon,
+            children: [
+                { name: "All Notifications", href: "/dashboard/notifications" },
+                { name: "Settings", href: "/dashboard/notifications/settings" },
+            ],
+        },
+    ];
+
 
 export default function DashboardLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -121,7 +122,7 @@ export default function DashboardLayout({ children }) {
                                         className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
                                             item.children
                                                 ? "text-gray-300"
-                                                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                                                : "text-gray-300 hover:bg-gray-50 hover:text-gray-900"
                                         }`}
                                         onClick={(e) => {
                                             if (item.children) {
@@ -197,7 +198,7 @@ export default function DashboardLayout({ children }) {
                                         className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
                                             item.children
                                                 ? "text-gray-300"
-                                                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                                                : "text-gray-300 hover:bg-gray-50 hover:text-gray-900"
                                         }`}
                                         onClick={(e) => {
                                             if (item.children) {

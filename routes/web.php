@@ -75,15 +75,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         //Templates
         Route::resource('templates', TemplateController::class);
         // Route::prefix('templates')->group(function () {
-            // Route::get('/', [TemplateController::class, 'index']);
-            // Route::get('/', [TemplateController::class, 'index']);
-            // Route::get('/', [TemplateController::class, 'index']);
-            // Route::inertia('/new', 'CreateTemplate');
-            // Route::get('/{id}/edit', [TemplateController::class, 'edits'])->name('templates.edit');
-            // });
+        // Route::get('/', [TemplateController::class, 'index']);
+        // Route::get('/', [TemplateController::class, 'index']);
+        // Route::get('/', [TemplateController::class, 'index']);
+        // Route::inertia('/new', 'CreateTemplate');
+        // Route::get('/{id}/edit', [TemplateController::class, 'edits'])->name('templates.edit');
+        // });
 
-            //Campaigns
-            Route::resource('campaigns', CampaignController::class);
+        //Campaigns
+        Route::resource('campaigns', CampaignController::class);
         // Route::prefix('campaigns')->group(function () {
         //     Route::get('/', [CampaignController::class, 'index']);
         //     Route::get('/new', [CampaignController::class, 'create']);
@@ -94,7 +94,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('server-config', ServerConfigurationController::class);
 
         //Contacts
+        Route::post('/contacts/bulk-upload', [ContactController::class, 'bulkUpload'])->name('contacts.bulkUpload');
+        Route::post('/contacts/bulk-delete', [ContactController::class, 'bulkDelete'])->name('contacts.bulkDelete');
+        Route::get('contacts/export', [ContactController::class, 'export'])->name('contacts.export');
         Route::resource('contacts', ContactController::class);
+
         Route::middleware('auth')->group(function () {
             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -110,11 +114,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/templates', TemplateController::class);
 });
 
-Route::resource('contacts', ContactController::class);
+// Route::resource('contacts', ContactController::class);
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

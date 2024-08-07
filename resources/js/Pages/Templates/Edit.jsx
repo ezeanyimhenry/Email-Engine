@@ -38,9 +38,23 @@ const EditTemplate = ({ template }) => {
         editor.on("component:update", () => {
             const html = editor.getHtml();
             const css = editor.getCss();
-            const content = `<style>${css}</style>${html}`;
+            const content = `<!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            ${css}
+            @import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css');
+          </style>
+        </head>
+        <body>${html}</body>
+      </html>`;
             setData("content", content);
         });
+
+        // Cleanup editor on component unmount
+        return () => {
+            editor.destroy();
+        };
     }, [template]);
 
     const handleSubmit = (e) => {

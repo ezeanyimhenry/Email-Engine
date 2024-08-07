@@ -51,7 +51,6 @@ class CampaignController extends Controller
 
     public function edit(EmailCampaigns $template)
     {
-        $this->authorize('update', $template);
         return view('campaigns.edit', compact('template'));
     }
     public function update(Request $request, EmailCampaigns $template)
@@ -103,7 +102,7 @@ class CampaignController extends Controller
         Mail::send([], [], function ($message) use ($campaign, $serverConfig, $htmlContent) {
             $message->to('collinschristroa@gmail.com')
                     ->subject($campaign->title)
-                    ->from($serverConfig->from_email, $serverConfig->from_name)
+                    ->from($serverConfig->username, $serverConfig->name)
                     ->html($htmlContent);
         });
 

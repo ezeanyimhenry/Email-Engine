@@ -5,25 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Models\User;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ContactsImport;
+use App\Exports\ContactsExport;
 
 class ContactController extends Controller
 {
     public function index()
     {
         $user = auth()->user();
-        
+
         if ($user instanceof User) {
-            $contacts = $user->contacts;
-            return view('contacts.index', compact('contacts'));
+            $contacts = $user->contacts()->paginate(10);
+            return inertia('Contacts/Index', [
+                'contacts' => $contacts
+            ]);
         } else {
-            // Handle the case where auth()->user() is not a User instance
             abort(403, 'Unauthorized action.');
         }
     }
 
     public function create()
     {
-        return view('contacts.create');
+        return inertia('Contacts/Create');
     }
 
     public function store(Request $request)
@@ -37,12 +41,11 @@ class ContactController extends Controller
         ]);
 
         $user = auth()->user();
-        
+
         if ($user instanceof User) {
             $user->contacts()->create($request->all());
             return redirect()->route('contacts.index');
         } else {
-            // Handle the case where auth()->user() is not a User instance
             abort(403, 'Unauthorized action.');
         }
     }
@@ -50,12 +53,13 @@ class ContactController extends Controller
     public function show($id)
     {
         $user = auth()->user();
-        
+
         if ($user instanceof User) {
             $contact = $user->contacts()->findOrFail($id);
-            return view('contacts.show', compact('contact'));
+            return inertia('Contacts/Show', [
+                'contact' => $contact
+            ]);
         } else {
-            // Handle the case where auth()->user() is not a User instance
             abort(403, 'Unauthorized action.');
         }
     }
@@ -63,12 +67,13 @@ class ContactController extends Controller
     public function edit($id)
     {
         $user = auth()->user();
-        
+
         if ($user instanceof User) {
             $contact = $user->contacts()->findOrFail($id);
-            return view('contacts.edit', compact('contact'));
+            return inertia('Contacts/Edit', [
+                'contact' => $contact
+            ]);
         } else {
-            // Handle the case where auth()->user() is not a User instance
             abort(403, 'Unauthorized action.');
         }
     }
@@ -84,13 +89,12 @@ class ContactController extends Controller
         ]);
 
         $user = auth()->user();
-        
+
         if ($user instanceof User) {
             $contact = $user->contacts()->findOrFail($id);
             $contact->update($request->all());
             return redirect()->route('contacts.index');
         } else {
-            // Handle the case where auth()->user() is not a User instance
             abort(403, 'Unauthorized action.');
         }
     }
@@ -98,13 +102,28 @@ class ContactController extends Controller
     public function destroy($id)
     {
         $user = auth()->user();
-        
+
         if ($user instanceof User) {
             $user->contacts()->findOrFail($id)->delete();
             return redirect()->route('contacts.index');
         } else {
-            // Handle the case where auth()->user() is not a User instance
             abort(403, 'Unauthorized action.');
         }
+    }
+
+    public function bulkUpload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|max:2048',
+        ]);
+
+        Excel::import(new ContactsImport, $request->file('file'));
+
+        return redirect()->route('contacts.index');
+    }
+
+    public function export()
+    {
+        return Excel::download(new ContactsExport, 'contacts.xlsx');
     }
 }
