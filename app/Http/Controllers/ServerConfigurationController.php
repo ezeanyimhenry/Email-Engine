@@ -11,11 +11,15 @@ use Inertia\Inertia;
 class ServerConfigurationController extends Controller
 {
     public function index()
-    {
-        $config = ServerConfiguration::where('user_id', auth()->id())->first();
-        $config['password'] = Crypt::decryptString($config->password);
-        return Inertia::render('ServerConfiguration', ['config' => $config]);
+{
+    $config = ServerConfiguration::where('user_id', auth()->id())->first();
+
+    if ($config && $config->password) {
+        $config->password = Crypt::decryptString($config->password);
     }
+
+    return Inertia::render('ServerConfiguration', ['config' => $config]);
+}
 
     public function store(Request $request)
     {
