@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "@inertiajs/inertia-react";
-import { useSpring, animated } from '@react-spring/web';
+import { Link } from '@inertiajs/react';
+import { useSpring, animated } from "@react-spring/web";
 import {
     ArrowDownLeftIcon,
     CogIcon,
@@ -16,6 +16,7 @@ import {
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
     { name: "Account Settings", href: "/dashboard/settings", icon: CogIcon },
+    { name: "Server Config", href: "/dashboard/server-config", icon: CogIcon },
     {
         name: "Billing & Subscription",
         href: "/dashboard/subscription",
@@ -23,16 +24,17 @@ const navigation = [
     },
     {
         name: "Templates",
-        href: "/dashboard/templates",
+        href: "#", // Changed to #
         icon: FolderIcon,
         children: [
-            { name: "All Templates", href: "/dashboard/templates/all" },
+            { name: "My Templates", href: "/dashboard/email-templates/" },
+            { name: "All Templates", href: "/dashboard/templates/" },
             { name: "Create New", href: "/dashboard/templates/create" },
         ],
     },
     {
         name: "Contacts",
-        href: "/dashboard/contacts",
+        href: "#", // Changed to #
         icon: UsersIcon,
         children: [
             { name: "All Contacts", href: "/dashboard/contacts/all" },
@@ -41,7 +43,7 @@ const navigation = [
     },
     {
         name: "Campaigns",
-        href: "/dashboard/campaigns",
+        href: "#", // Changed to #
         icon: DocumentTextIcon,
         children: [
             { name: "All Campaigns", href: "/dashboard/campaigns/all" },
@@ -50,7 +52,7 @@ const navigation = [
     },
     {
         name: "Reports",
-        href: "/dashboard/reports",
+        href: "#", // Changed to #
         icon: PaperClipIcon,
         children: [
             { name: "Overview", href: "/dashboard/reports/overview" },
@@ -59,7 +61,7 @@ const navigation = [
     },
     {
         name: "Notifications",
-        href: "/dashboard/notifications",
+        href: "#", // Changed to #
         icon: ExclamationCircleIcon,
         children: [
             { name: "All Notifications", href: "/dashboard/notifications/all" },
@@ -73,19 +75,19 @@ export default function DashboardLayout({ children }) {
     const [openSection, setOpenSection] = useState(null);
 
     const sidebarAnimation = useSpring({
-        transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
+        transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
         opacity: sidebarOpen ? 1 : 0,
         config: { tension: 250, friction: 20 },
     });
 
     const sectionAnimation = useSpring({
         opacity: openSection ? 1 : 0,
-        height: openSection ? 'auto' : '0px',
+        height: openSection ? "auto" : "0px",
         config: { tension: 200, friction: 25 },
     });
 
     return (
-        <div className="h-screen flex overflow-hidden  bg-gray-100">
+        <div className="h-screen flex overflow-hidden bg-gray-100">
             {/* Sidebar */}
             <animated.div
                 style={sidebarAnimation}
@@ -122,9 +124,15 @@ export default function DashboardLayout({ children }) {
                                                 : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                         }`}
                                         onClick={(e) => {
-                                            // item.children && e.preventDefault();
-                                            item.children && setOpenSection(openSection === item.name ? null : item.name);
-                                          }}
+                                            if (item.children) {
+                                                e.preventDefault(); // Prevent navigation for dropdowns
+                                                setOpenSection(
+                                                    openSection === item.name
+                                                        ? null
+                                                        : item.name
+                                                );
+                                            }
+                                        }}
                                     >
                                         <item.icon
                                             className="mr-3 flex-shrink-0 h-6 w-6"
@@ -147,19 +155,23 @@ export default function DashboardLayout({ children }) {
                                             </svg>
                                         )}
                                     </Link>
-                                    {item.children && openSection === item.name && (
-                                        <animated.div style={sectionAnimation} className="ml-6 space-y-1">
-                                            {item.children.map((child) => (
-                                                <Link
-                                                    key={child.name}
-                                                    href={child.href}
-                                                    className="block px-2 py-1 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-700 hover:text-white"
-                                                >
-                                                    {child.name}
-                                                </Link>
-                                            ))}
-                                        </animated.div>
-                                    )}
+                                    {item.children &&
+                                        openSection === item.name && (
+                                            <animated.div
+                                                style={sectionAnimation}
+                                                className="ml-6 space-y-1"
+                                            >
+                                                {item.children.map((child) => (
+                                                    <Link
+                                                        key={child.name}
+                                                        href={child.href}
+                                                        className="block px-2 py-1 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-700 hover:text-white"
+                                                    >
+                                                        {child.name}
+                                                    </Link>
+                                                ))}
+                                            </animated.div>
+                                        )}
                                 </div>
                             ))}
                         </nav>
@@ -188,13 +200,14 @@ export default function DashboardLayout({ children }) {
                                                 : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                         }`}
                                         onClick={(e) => {
-                                            // item.children && e.preventDefault();
-                                            item.children &&
+                                            if (item.children) {
+                                                e.preventDefault(); // Prevent navigation for dropdowns
                                                 setOpenSection(
                                                     openSection === item.name
                                                         ? null
                                                         : item.name
                                                 );
+                                            }
                                         }}
                                     >
                                         <item.icon
@@ -218,26 +231,31 @@ export default function DashboardLayout({ children }) {
                                             </svg>
                                         )}
                                     </Link>
-                                    {item.children && openSection === item.name && (
-                                        <animated.div style={sectionAnimation} className="ml-6 space-y-1">
-                                            {item.children.map((child) => (
-                                                <Link
-                                                    key={child.name}
-                                                    href={child.href}
-                                                    className="block px-2 py-1 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-700 hover:text-white"
-                                                >
-                                                    {child.name}
-                                                </Link>
-                                            ))}
-                                        </animated.div>
-                                    )}
+                                    {item.children &&
+                                        openSection === item.name && (
+                                            <animated.div
+                                                style={sectionAnimation}
+                                                className="ml-6 space-y-1"
+                                            >
+                                                {item.children.map((child) => (
+                                                    <Link
+                                                        key={child.name}
+                                                        href={child.href}
+                                                        className="block px-2 py-1 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-700
+hover
+"
+                                                    >
+                                                        {child.name}
+                                                    </Link>
+                                                ))}
+                                            </animated.div>
+                                        )}
                                 </div>
                             ))}
                         </nav>
                     </div>
                 </div>
             </div>
-
             <div className="flex flex-col w-0 flex-1 overflow-hidden">
                 <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
                     <button

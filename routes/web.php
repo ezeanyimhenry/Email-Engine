@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServerConfigurationController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,11 +27,35 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::inertia('/', 'Dashboard')->name('dashboard');
-        Route::inertia('/settings', 'EmailTemplates');
+        Route::inertia('/settings', 'AccountSettings');
 
-        Route::prefix('templates')->group(function () {
-            Route::get('/', [TemplateController::class, 'index']);
-            Route::get('/{id}/edit', [TemplateController::class, 'edits'])->name('templates.edit');
+        //Templates
+        Route::resource('templates', TemplateController::class);
+        // Route::prefix('templates')->group(function () {
+            // Route::get('/', [TemplateController::class, 'index']);
+            // Route::get('/', [TemplateController::class, 'index']);
+            // Route::get('/', [TemplateController::class, 'index']);
+            // Route::inertia('/new', 'CreateTemplate');
+            // Route::get('/{id}/edit', [TemplateController::class, 'edits'])->name('templates.edit');
+            // });
+
+            //Campaigns
+            Route::resource('campaigns', CampaignController::class);
+        // Route::prefix('campaigns')->group(function () {
+        //     Route::get('/', [CampaignController::class, 'index']);
+        //     Route::get('/new', [CampaignController::class, 'create']);
+        //     Route::post('/', [CampaignController::class,'store']);
+        //     Route::get('/{id}/edit', [CampaignController::class, 'edit'])->name('campaigns.edit');
+        // });
+        //Server Config
+        Route::resource('server-config', ServerConfigurationController::class);
+
+        //Contacts
+        Route::resource('contacts', ContactController::class);
+        Route::middleware('auth')->group(function () {
+            Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         });
 
     });

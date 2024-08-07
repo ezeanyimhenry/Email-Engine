@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('email_campaigns', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('content');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('email_template_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamp('scheduled_at')->nullable();
             $table->enum('status', ['draft', 'scheduled', 'sent'])->default('draft');
+            $table->unsignedInteger('opened_count')->default(0);
+            $table->unsignedInteger('clicked_count')->default(0);
             $table->timestamps();
         });
     }

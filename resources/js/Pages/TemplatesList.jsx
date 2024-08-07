@@ -13,7 +13,7 @@ const TemplatesList = ({ templates }) => {
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-4xl font-extrabold text-gray-900">Email Templates</h1>
             <Link
-              href="/dashboard/email-templates/new"
+              href="/dashboard/templates/new"
               className="inline-flex items-center px-5 py-2 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
             >
               New Template

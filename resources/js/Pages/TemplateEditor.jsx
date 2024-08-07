@@ -40,7 +40,7 @@ const TemplateEditor = ({ templateHtml }) => {
                     </h1>
                     <div className="mt-6">
                         <Link
-                            href="/dashboard/email-templates/new"
+                            href="/dashboard/templates/new"
                             className="text-indigo-600 hover:text-indigo-800"
                         >
                             Create New Template

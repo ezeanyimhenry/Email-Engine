@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('email_templates', function (Blueprint $table) {
+        Schema::create('server_configurations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->text('content');
-            $table->string('thumbnail')->nullable();
+            $table->string('host');
+            $table->string('username');
+            $table->string('password');
+            $table->string('encryption');
+            $table->integer('port');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('email_templates');
+        Schema::dropIfExists('server_configurations');
     }
 };
