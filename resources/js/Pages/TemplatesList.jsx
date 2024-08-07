@@ -25,29 +25,29 @@ const TemplatesList = ({ templates }) => {
               {templates.length === 0 ? (
                 <p className="text-center text-gray-500">No templates available</p>
               ) : (
-                <ul className="divide-y divide-gray-200">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {templates.map((template) => (
-                    <li key={template.id} className="py-4 flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="flex-shrink-0">
-                          <img className="h-12 w-12 rounded-full" src={template.thumbnail} alt={template.name} />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-lg font-medium text-gray-900">{template.name}</p>
-                          <p className="text-sm text-gray-500">{template.description}</p>
+                    <div key={template.id} className="bg-gray-50 rounded-lg shadow-md overflow-hidden">
+                      <img
+                        className="w-full h-48 object-cover transition-transform duration-300 transform hover:scale-105"
+                        src={template.thumbnail}
+                        alt={template.name}
+                      />
+                      <div className="p-4">
+                        <h2 className="text-xl font-semibold text-gray-800">{template.name}</h2>
+                        <p className="text-sm text-gray-500 mt-2">{template.description}</p>
+                        <div className="mt-4">
+                          <Link
+                            href={`/dashboard/templates/${template.id}/edit`}
+                            className="bg-indigo-600 hover:bg-indigo-800 text-white px-4 py-2 rounded-md"
+                          >
+                            Edit
+                          </Link>
                         </div>
                       </div>
-                      <div className="ml-4 flex-shrink-0">
-                        <Link
-                          href={`/dashboard/templates/${template.id}/edit`}
-                          className="text-indigo-600 hover:text-indigo-800"
-                        >
-                          Edit
-                        </Link>
-                      </div>
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
           </div>
