@@ -8,6 +8,49 @@ use App\Http\Controllers\TemplateController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
+
+
+Route::get('migrate', function () {
+    try {
+        // Capture the output of the Artisan command
+        $output = Artisan::output();
+
+        // Run the migration
+        Artisan::call('migrate');
+
+        // Log the output for debugging
+        Log::info('Migrate output: ' . $output);
+
+        return "Migrations completed successfully";
+    } catch (\Exception $e) {
+        // Log the error
+        Log::error('Migrate failed: ' . $e->getMessage());
+
+        return "Migrations Failed: " . $e->getMessage();
+    }
+});
+
+Route::get('migrate-fresh', function () {
+    try {
+        // Capture the output of the Artisan command
+        $output = Artisan::output();
+
+        // Run the migration
+        Artisan::call('migrate:fresh');
+
+        // Log the output for debugging
+        Log::info('Migrate fresh output: ' . $output);
+
+        return "Migrations completed successfully";
+    } catch (\Exception $e) {
+        // Log the error
+        Log::error('Migrate fresh failed: ' . $e->getMessage());
+
+        return "Migrations Failed: " . $e->getMessage();
+    }
+});
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
