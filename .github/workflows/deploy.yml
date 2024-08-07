@@ -43,6 +43,8 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Clear Config
         run: php artisan config:clear
+      - name: Build npm
+        run: npm run build
       #- name: MigrateDB
       # run: php artisan migrate:fresh --seed
       # - name: Create Database
