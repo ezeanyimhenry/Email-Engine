@@ -20,7 +20,7 @@ const Create = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/contacts');
+        post('/dashboard/contacts');
     };
 
     return (
