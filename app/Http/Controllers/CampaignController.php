@@ -100,7 +100,7 @@ class CampaignController extends Controller
         $htmlContent = $emailTemplate->content;
 
         Mail::send([], [], function ($message) use ($campaign, $serverConfig, $htmlContent) {
-            $message->to('collinschristroa@gmail.com')
+            $message->to('ezeanyimhenry@gmail.com')
                     ->subject($campaign->title)
                     ->from($serverConfig->username, $serverConfig->name)
                     ->html($htmlContent);
