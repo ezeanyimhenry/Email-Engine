@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
 import DashboardLayout from '../Layouts/DashboardLayout';
-import EmailEditor from '../Components/EmailEditor';
+import EmailEditor from '@/components/EmailEditor';
 
 const EmailTemplates = () => {
     return (
