@@ -50,6 +50,8 @@ jobs:
           node-version: '14'
       - name: Install npm Dependencies
         run: npm install
+      - name: Run npm dev
+        run: npm run dev
       - name: Build React App
         run: npm run build
         
