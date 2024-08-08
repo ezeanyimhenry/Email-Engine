@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: public/build
+          path: public/
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
