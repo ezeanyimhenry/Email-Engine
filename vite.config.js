@@ -8,15 +8,8 @@ export default defineConfig({
             input: 'resources/js/app.jsx',
             ssr: 'resources/js/ssr.jsx',
             refresh: true,
+            buildDirectory: '/build',
         }),
         react(),
     ],
-    build: {
-        outDir: 'public/build',
-        manifest: true,
-        rollupOptions: {
-            app: 'resources/js/app.jsx',
-            ssr: 'resources/js/ssr.jsx',
-        }
-    }
 });
