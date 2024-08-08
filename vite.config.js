@@ -12,6 +12,11 @@ export default defineConfig({
         react(),
     ],
     build: {
-        manifest: true
+        outDir: 'public/build',
+        manifest: true,
+        rollupOptions: {
+            app: 'resources/js/app.jsx',
+            ssr: 'resources/js/ssr.jsx',
+        }
     }
 });
