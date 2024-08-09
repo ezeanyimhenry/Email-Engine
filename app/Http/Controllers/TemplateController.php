@@ -17,6 +17,12 @@ class TemplateController extends Controller
         $templates = Template::get();
         return Inertia::render('Templates/List', ['templates' => $templates]);
     }
+    public function emailTemplate()
+    {
+
+        $templates = EmailTemplate::get();
+        return Inertia::render('Templates/UserTemplate', ['templates' => $templates]);
+    }
 
     public function show($id)
     {

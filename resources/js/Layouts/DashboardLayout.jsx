@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from '@inertiajs/react';
+import { Link } from "@inertiajs/react";
 import { useSpring, animated } from "@react-spring/web";
 import {
     ArrowDownLeftIcon,
@@ -12,64 +12,64 @@ import {
     PaperClipIcon,
     ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
+import ApplicationLogo from "@/Components/ApplicationLogo";
 
 const navigation = [
-        { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
-        { name: "Account Settings", href: "/dashboard/settings", icon: CogIcon },
-        { name: "Server Config", href: "/dashboard/server-config", icon: CogIcon },
-        {
-            name: "Billing & Subscription",
-            href: "/dashboard/subscription",
-            icon: CurrencyDollarIcon,
-        },
-        {
-            name: "Templates",
-            href: "#", // Keep as # if it's a dropdown
-            icon: FolderIcon,
-            children: [
-                { name: "My Templates", href: "/dashboard/email-templates" },
-                { name: "All Templates", href: "/dashboard/templates" },
-                { name: "Create New", href: "/dashboard/templates/create" },
-            ],
-        },
-        {
-            name: "Contacts",
-            href: "#", // Keep as # if it's a dropdown
-            icon: UsersIcon,
-            children: [
-                { name: "All Contacts", href: "/dashboard/contacts" },
-                { name: "Add New", href: "/dashboard/contacts/create" },
-            ],
-        },
-        {
-            name: "Campaigns",
-            href: "#", // Keep as # if it's a dropdown
-            icon: DocumentTextIcon,
-            children: [
-                { name: "All Campaigns", href: "/dashboard/campaigns" },
-                { name: "Create New", href: "/dashboard/campaigns/create" },
-            ],
-        },
-        {
-            name: "Reports",
-            href: "#", // Keep as # if it's a dropdown
-            icon: PaperClipIcon,
-            children: [
-                { name: "Overview", href: "/dashboard/reports" },
-                { name: "Detailed Report", href: "/dashboard/reports/detailed" },
-            ],
-        },
-        {
-            name: "Notifications",
-            href: "#", // Keep as # if it's a dropdown
-            icon: ExclamationCircleIcon,
-            children: [
-                { name: "All Notifications", href: "/dashboard/notifications" },
-                { name: "Settings", href: "/dashboard/notifications/settings" },
-            ],
-        },
-    ];
-
+    { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
+    { name: "Account Settings", href: "/dashboard/settings", icon: CogIcon },
+    { name: "Server Config", href: "/dashboard/server-config", icon: CogIcon },
+    {
+        name: "Billing & Subscription",
+        href: "/dashboard/subscription",
+        icon: CurrencyDollarIcon,
+    },
+    {
+        name: "Templates",
+        href: "#", // Keep as # if it's a dropdown
+        icon: FolderIcon,
+        children: [
+            { name: "My Templates", href: "/dashboard/email-templates" },
+            { name: "All Templates", href: "/dashboard/templates" },
+            { name: "Create New", href: "/dashboard/templates/create" },
+        ],
+    },
+    {
+        name: "Contacts",
+        href: "#", // Keep as # if it's a dropdown
+        icon: UsersIcon,
+        children: [
+            { name: "All Contacts", href: "/dashboard/contacts" },
+            { name: "Add New", href: "/dashboard/contacts/create" },
+        ],
+    },
+    {
+        name: "Campaigns",
+        href: "#", // Keep as # if it's a dropdown
+        icon: DocumentTextIcon,
+        children: [
+            { name: "All Campaigns", href: "/dashboard/campaigns" },
+            { name: "Create New", href: "/dashboard/campaigns/create" },
+        ],
+    },
+    {
+        name: "Reports",
+        href: "#", // Keep as # if it's a dropdown
+        icon: PaperClipIcon,
+        children: [
+            { name: "Overview", href: "/dashboard/reports" },
+            { name: "Detailed Report", href: "/dashboard/reports/detailed" },
+        ],
+    },
+    {
+        name: "Notifications",
+        href: "#", // Keep as # if it's a dropdown
+        icon: ExclamationCircleIcon,
+        children: [
+            { name: "All Notifications", href: "/dashboard/notifications" },
+            { name: "Settings", href: "/dashboard/notifications/settings" },
+        ],
+    },
+];
 
 export default function DashboardLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -183,11 +183,7 @@ export default function DashboardLayout({ children }) {
             <div className="hidden md:flex md:flex-shrink-0">
                 <div className="flex flex-col w-64 bg-gray-800 text-white">
                     <div className="flex items-center justify-between px-4 py-4">
-                        <img
-                            src="/logo.svg"
-                            alt="Logo"
-                            className="h-8 w-auto"
-                        />
+                        <ApplicationLogo className="w-4 h-auto fill-current text-gray-500" />
                     </div>
                     <div className="flex flex-col flex-1 overflow-y-auto">
                         <nav className="mt-5 flex-1 px-2 space-y-1">

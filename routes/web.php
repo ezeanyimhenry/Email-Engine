@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServerConfigurationController;
 use App\Http\Controllers\TemplateController;
@@ -60,7 +61,7 @@ Route::get('migrate-fresh', function () {
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
-Route::inertia('/', 'Home');
+Route::inertia('/', 'Welcome');
 
 
 Route::get('/dashboard', function () {
@@ -73,6 +74,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::inertia('/settings', 'AccountSettings');
 
         //Templates
+        // Route::get('/email-templates', [TemplateController::class, 'emailTemplate'])->name('templates.user');
+        Route::resource('email-templates', EmailTemplateController::class);
         Route::resource('templates', TemplateController::class);
         // Route::prefix('templates')->group(function () {
         // Route::get('/', [TemplateController::class, 'index']);
