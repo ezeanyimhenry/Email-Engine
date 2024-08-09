@@ -13,6 +13,7 @@ import {
     ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 import ApplicationLogo from "@/Components/ApplicationLogo";
+import Modal from "@/Components/Modal";
 
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
@@ -25,7 +26,7 @@ const navigation = [
     },
     {
         name: "Templates",
-        href: "#", // Keep as # if it's a dropdown
+        href: "#",
         icon: FolderIcon,
         children: [
             { name: "My Templates", href: "/dashboard/email-templates" },
@@ -35,7 +36,7 @@ const navigation = [
     },
     {
         name: "Contacts",
-        href: "#", // Keep as # if it's a dropdown
+        href: "#",
         icon: UsersIcon,
         children: [
             { name: "All Contacts", href: "/dashboard/contacts" },
@@ -44,7 +45,7 @@ const navigation = [
     },
     {
         name: "Campaigns",
-        href: "#", // Keep as # if it's a dropdown
+        href: "#",
         icon: DocumentTextIcon,
         children: [
             { name: "All Campaigns", href: "/dashboard/campaigns" },
@@ -53,8 +54,9 @@ const navigation = [
     },
     {
         name: "Reports",
-        href: "#", // Keep as # if it's a dropdown
+        href: "#",
         icon: PaperClipIcon,
+        disabled: true,
         children: [
             { name: "Overview", href: "/dashboard/reports" },
             { name: "Detailed Report", href: "/dashboard/reports/detailed" },
@@ -62,8 +64,9 @@ const navigation = [
     },
     {
         name: "Notifications",
-        href: "#", // Keep as # if it's a dropdown
+        href: "#",
         icon: ExclamationCircleIcon,
+        disabled: true,
         children: [
             { name: "All Notifications", href: "/dashboard/notifications" },
             { name: "Settings", href: "/dashboard/notifications/settings" },
@@ -74,6 +77,7 @@ const navigation = [
 export default function DashboardLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [openSection, setOpenSection] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const sidebarAnimation = useSpring({
         transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
@@ -86,6 +90,8 @@ export default function DashboardLayout({ children }) {
         height: openSection ? "auto" : "0px",
         config: { tension: 200, friction: 25 },
     });
+
+    const closeModal = () => setModalOpen(false);
 
     return (
         <div className="h-screen flex overflow-hidden bg-gray-100">
@@ -120,12 +126,17 @@ export default function DashboardLayout({ children }) {
                                     <Link
                                         href={item.href}
                                         className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
-                                            item.children
+                                            item.disabled
+                                                ? "text-gray-500 cursor-not-allowed"
+                                                : item.children
                                                 ? "text-gray-300"
                                                 : "text-gray-300 hover:bg-gray-50 hover:text-gray-900"
                                         }`}
                                         onClick={(e) => {
-                                            if (item.children) {
+                                            if (item.disabled) {
+                                                e.preventDefault();
+                                                setModalOpen(true);
+                                            } else if (item.children) {
                                                 e.preventDefault(); // Prevent navigation for dropdowns
                                                 setOpenSection(
                                                     openSection === item.name
@@ -192,12 +203,17 @@ export default function DashboardLayout({ children }) {
                                     <Link
                                         href={item.href}
                                         className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
-                                            item.children
+                                            item.disabled
+                                                ? "text-gray-500 cursor-not-allowed"
+                                                : item.children
                                                 ? "text-gray-300"
                                                 : "text-gray-300 hover:bg-gray-50 hover:text-gray-900"
                                         }`}
                                         onClick={(e) => {
-                                            if (item.children) {
+                                            if (item.disabled) {
+                                                e.preventDefault();
+                                                setModalOpen(true);
+                                            } else if (item.children) {
                                                 e.preventDefault(); // Prevent navigation for dropdowns
                                                 setOpenSection(
                                                     openSection === item.name
@@ -238,9 +254,7 @@ export default function DashboardLayout({ children }) {
                                                     <Link
                                                         key={child.name}
                                                         href={child.href}
-                                                        className="block px-2 py-1 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-700
-hover
-"
+                                                        className="block px-2 py-1 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-700 hover:text-white"
                                                     >
                                                         {child.name}
                                                     </Link>
@@ -253,29 +267,32 @@ hover
                     </div>
                 </div>
             </div>
+            {/* Main content */}
             <div className="flex flex-col w-0 flex-1 overflow-hidden">
-                <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+                <main>{children}</main>
+            </div>
+
+            {/* Modal */}
+            <Modal
+                show={modalOpen}
+                maxWidth="md"
+                closeable={true}
+                onClose={() => setModalOpen(false)}
+            >
+                <div className="p-4">
+                    <h3 className="text-lg font-semibold text-red-500">Access Restricted</h3>
+                    <p className="mt-2 text-white">
+                        This page can't be accessed on our beta.
+                    </p>
                     <button
                         type="button"
-                        className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
-                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                        className="mt-4 inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700"
+                        onClick={() => setModalOpen(false)}
                     >
-                        <span className="sr-only">Open sidebar</span>
-                        <ArrowDownLeftIcon
-                            className="h-6 w-6"
-                            aria-hidden="true"
-                        />
+                        Close
                     </button>
                 </div>
-
-                <main className="flex-1 relative overflow-y-auto focus:outline-none">
-                    <div className="py-6">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                            {children}
-                        </div>
-                    </div>
-                </main>
-            </div>
+            </Modal>
         </div>
     );
 }
