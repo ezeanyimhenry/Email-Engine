@@ -24,6 +24,7 @@ class ContactsImport implements ToModel, WithHeadingRow
             'email'      => $row['email'],
             'phone'      => $row['phone'] ?? null,
             'address'    => $row['address'] ?? null,
+            'user_id'    => auth()->id(),
         ]);
     }
 }

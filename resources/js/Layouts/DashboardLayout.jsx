@@ -21,7 +21,7 @@ const navigation = [
     { name: "Server Config", href: "/dashboard/server-config", icon: CogIcon },
     {
         name: "Billing & Subscription",
-        href: "/dashboard/subscription",
+        href: "/dashboard/subscriptions",
         icon: CurrencyDollarIcon,
     },
     {

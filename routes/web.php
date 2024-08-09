@@ -3,8 +3,10 @@
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EmailTemplateController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServerConfigurationController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +86,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Route::inertia('/new', 'CreateTemplate');
         // Route::get('/{id}/edit', [TemplateController::class, 'edits'])->name('templates.edit');
         // });
+
+        Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions');
+        Route::post('/subscribe', [SubscriptionController::class, 'create']);
+        Route::post('/initialize-payment', [PaymentController::class, 'initializePayment']);
+        Route::get('/verify-payment', [PaymentController::class, 'verifyPayment']);
+
 
         //Campaigns
         Route::resource('campaigns', CampaignController::class);
